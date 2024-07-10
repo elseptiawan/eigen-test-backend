@@ -30,6 +30,12 @@ module.exports = (sequelize, Datatypes) => {
     }, {
         tableName : 'borrowing_books',
     });
+    BorrowingBook.associate = function(models) {
+        BorrowingBook.belongsTo(models.Book, {
+            foreignKey: 'book_id',
+            as: 'book'
+        });
+    }
 
     return BorrowingBook;
 }
