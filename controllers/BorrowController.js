@@ -32,7 +32,7 @@ const { Op } = require("sequelize");
  * @swagger
  * tags:
  *   name: Borrow
- *   description: API endpoints for borrowing books
+ *   description: API endpoints for borrowing and returning books
  */
 
 /**
@@ -123,6 +123,24 @@ exports.borrow = async (req, res) => {
     }
 }
 
+/**
+ * @swagger
+ * /returns:
+ *   put:
+ *     summary: Return a book
+ *     tags: [Borrow]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/BorrowRequest'
+ *     responses:
+ *       200:
+ *         description: Successfully returned
+ *       400:
+ *         description: Request Validation Error
+ */
 exports.bookReturn = async (req, res) => {
     const schema = {
         member_id : 'number|min:1',
