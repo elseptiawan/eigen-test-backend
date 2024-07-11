@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const {
-  borrow
+  bookReturn
 } = require('../controllers/BorrowController');
 
-//Borrowing Book
-router.post('/', borrow);
+//Returning Book
+router.put('/', bookReturn);
 
 module.exports = router;

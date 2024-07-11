@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 var bookRouter = require('./routes/bookRoutes');
 var memberRouter = require('./routes/memberRoutes');
 var borrowRouter = require('./routes/borrowRoutes');
+var bookReturnRouter = require('./routes/bookReturnRoutes');
 
 app.get('/health', (req, res) => {
     sendResponse(res, 200, 'Success');
@@ -19,6 +20,7 @@ app.get('/health', (req, res) => {
 app.use('/books', bookRouter);
 app.use('/members', memberRouter);
 app.use('/borrows', borrowRouter);
+app.use('/returns', bookReturnRouter);
 
 app.use('/', (req, res) => {
     sendResponse(res, 404, 'Not Found');
