@@ -4,6 +4,14 @@ const sendResponse = (res, statusCode, message, data = null) => {
       message,
       data,
     });
-  };
-  
-  module.exports = { sendResponse };
+};
+
+const validationErrResponse = (res, message, errors = null) => {
+  res.status(400).json({
+    status: 400,
+    message,
+    errors,
+  });
+};
+
+module.exports = { sendResponse, validationErrResponse };
