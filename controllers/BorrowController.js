@@ -115,7 +115,6 @@ exports.bookReturn = async (req, res) => {
         }
 
         const dayDiff = Math.floor((now - checkBorrow.createdAt) / (1000 * 60 * 60 * 24));
-        console.log(dayDiff);
 
         let message = 'You have returned the book';
         if (dayDiff > 7) {
