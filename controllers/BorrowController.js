@@ -7,6 +7,52 @@ const db = require('../models/index');
 const v = new Validator();
 const { Op } = require("sequelize");
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     BorrowRequest:
+ *       type: object
+ *       required:
+ *         - member_id
+ *         - book_id
+ *       properties:
+ *         member_id:
+ *           type: string
+ *           description: The ID of the member who is borrowing the book
+ *         book_id:
+ *           type: string
+ *           description: The ID of the book being borrowed
+ *       example:
+ *         member_id: 1
+ *         book_id: 101
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Borrow
+ *   description: API endpoints for borrowing books
+ */
+
+/**
+ * @swagger
+ * /borrows:
+ *   post:
+ *     summary: Borrow a book
+ *     tags: [Borrow]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/BorrowRequest'
+ *     responses:
+ *       201:
+ *         description: Successfully borrowed
+ *       400:
+ *         description: Request Validation Error
+ */
 exports.borrow = async (req, res) => {
     const schema = {
         member_id : 'number|min:1',
