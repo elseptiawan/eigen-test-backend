@@ -1,5 +1,5 @@
-const {BorrowingBook, Penalty, Book} = require('../models')
-const { sendResponse } = require('../helpers/response');
+const {BorrowingBook, Penalty, Book, Member} = require('../models')
+const { sendResponse, validationErrResponse } = require('../helpers/response');
 const Validator = require('fastest-validator');
 const sequelize = require('sequelize');
 const db = require('../models/index');
@@ -16,12 +16,16 @@ exports.borrow = async (req, res) => {
     const validate = v.validate(req.body, schema);
         
     if (validate.length){
-        // return sendResponse(res, 400, 'Request validation error', validate);
-        return res.status(400).json(validate);
+        return validationErrResponse(res, 'Request validation error', validate);
     }
 
     const t = await db.sequelize.transaction();
     try{
+        const checkMember = await Member.findByPk(req.body.member_id);
+        if (!checkMember) {
+            return sendResponse(res, 404, 'Member not found');
+        }
+        
         const checkPenalty = await Penalty.findOne({
             where: {
                 member_id: req.body.member_id,
