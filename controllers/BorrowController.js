@@ -32,7 +32,7 @@ exports.borrow = async (req, res) => {
         });
 
         if (checkPenalty) {
-            return sendResponse(res, 400, 'You are under penalty. You cannot borrow books');
+            return sendResponse(res, 400, `You are under penalty. You cannot borrow books until ${checkPenalty.end_date}`);
         }
 
         const checkBorrow = await BorrowingBook.findAll({
