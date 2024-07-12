@@ -26,6 +26,44 @@ const { Op } = require("sequelize");
  *       example:
  *         member_id: 1
  *         book_id: 101
+ *     SuccessResponse:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: integer
+ *           description: response status code
+ *         message:
+ *           type: string
+ *           description: message of response
+ *     ErrorResponse:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: integer
+ *           description: reponse status code
+ *         message:
+ *           type: string
+ *           description: message of error
+ *         errors:
+ *           type: array
+ *           items:
+ *            type: object
+ *            properties:
+ *              type:
+ *                  type: string
+ *                  description: type of error
+ *              message:
+ *                  type: string
+ *                  description: message of error
+ *              field:
+ *                  type: string
+ *                  description: field which get error validation
+ *              expected:
+ *                  type: integer
+ *                  description: the expecting value of the field
+ *              actual:
+ *                  type: integer
+ *                  description: the actual value input of the field
  */
 
 /**
@@ -50,8 +88,66 @@ const { Op } = require("sequelize");
  *     responses:
  *       201:
  *         description: Successfully borrowed
+ *         content:
+ *           application/json:
+ *             schema:
+ *              $ref: '#/components/schemas/SuccessReponse'
+ *             examples:
+ *              success:
+ *                summary: Success Response
+ *                value:
+ *                  status: 201
+ *                  message: "You have borrowed the book"
  *       400:
  *         description: Request Validation Error
+ *         content:
+ *           application/json:
+ *            schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
+ *            examples:
+ *             reqValidationErr:
+ *              summary: Request Validation Error
+ *              value:
+ *                status: 400
+ *                message: "Request Validation Error"
+ *                errors:
+ *                  - type: "numberMin"
+ *                    message: "The 'member_id' field must be greater than or equal to 1."
+ *                    field: "member_id"
+ *                    expected: 1
+ *                    actual: 0
+ *             underPenalty:
+ *              summary: Member Under Penalty
+ *              value:
+ *                status: 400
+ *                message: "You are under penalty. You cannot borrow books until 2024-07-15"
+ *             borrowMoreThan2Books:
+ *              summary: Borrow more than 2 books
+ *              value:
+ *                status: 400
+ *                message: "You cannot borrow more than 2 books in a time"
+ *             bookNotAvailable:
+ *              summary: Book not available
+ *              value:
+ *                status: 400
+ *                message: "Book is not available for now"
+ *       404:
+ *         description: Not Found Response
+ *         content:
+ *           application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/ErrorResponse'
+ *            examples:
+ *              memberNotFound:
+ *                summary: Member Not Found
+ *                value:
+ *                  status: 404
+ *                  message: "Member not found"
+ *              bookNotFound:
+ *                summary: Book Not Found
+ *                value:
+ *                  status: 404
+ *                  message: "Book Not Found"
  */
 exports.borrow = async (req, res) => {
     const schema = {
@@ -115,7 +211,7 @@ exports.borrow = async (req, res) => {
         await book.save();
 
         await t.commit();
-        sendResponse(res, 201, 'Created');
+        sendResponse(res, 201, 'You have borrowed the book');
     } catch (error) {
         await t.rollback();
         console.log(error);
