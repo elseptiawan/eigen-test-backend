@@ -25,7 +25,7 @@ const { Op } = require("sequelize");
  *           description: The ID of the book being borrowed
  *       example:
  *         member_id: 1
- *         book_id: 101
+ *         book_id: 1
  *     SuccessResponse:
  *       type: object
  *       properties:
