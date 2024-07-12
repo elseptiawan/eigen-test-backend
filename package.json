@@ -4,18 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.4.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "fastest-validator": "^1.18.0",
+    "mocha": "^10.6.0",
     "mysql2": "^3.10.2",
     "sequelize": "^6.37.3",
     "sequelize-cli": "^6.6.2",
+    "supertest": "^7.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   }
