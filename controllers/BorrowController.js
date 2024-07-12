@@ -161,7 +161,6 @@ exports.borrow = async (req, res) => {
         return validationErrResponse(res, 'Request validation error', validate);
     }
 
-    const t = await db.sequelize.transaction();
     try{
         const checkMember = await Member.findByPk(req.body.member_id);
         if (!checkMember) {
@@ -202,6 +201,7 @@ exports.borrow = async (req, res) => {
             return sendResponse(res, 400, 'Book is not available for now');
         }
 
+        const t = await db.sequelize.transaction();
         await BorrowingBook.create({
             member_id: req.body.member_id,
             book_id: req.body.book_id
@@ -302,7 +302,6 @@ exports.bookReturn = async (req, res) => {
         return validationErrResponse(res, 'Request validation error', validate);
     }
 
-    const t = await db.sequelize.transaction();
     try{
         now = new Date();
 
@@ -338,6 +337,7 @@ exports.bookReturn = async (req, res) => {
             message = `You have returned the book late. You have a penalty until ${penalty.end_date}`;
         }
 
+        const t = await db.sequelize.transaction();
         await checkBorrow.update({
             is_returned: true
         });
