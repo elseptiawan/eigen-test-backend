@@ -57,3 +57,11 @@ npm run test
 ```bash
 npm run start
 ```
+
+### API Documentation
+
+```bash
+{host}/api-docs
+# example
+http://localhost:3000/api-docs
+```
