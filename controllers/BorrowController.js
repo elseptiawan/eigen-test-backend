@@ -234,8 +234,61 @@ exports.borrow = async (req, res) => {
  *     responses:
  *       200:
  *         description: Successfully returned
+ *         content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/SuccessResponse'
+ *            examples:
+ *              onTimeReturn:
+ *                summary: On Time Return
+ *                value:
+ *                  status: 200
+ *                  message: "You have returned the book"
+ *              lateReturn:
+ *                summary: Late Return
+ *                value:
+ *                  status: 200
+ *                  message: "You have returned the book late. You have a penalty until 2024-07-15"
  *       400:
  *         description: Request Validation Error
+ *         content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/ErrorResponse'
+ *            examples:
+ *              reqValidationErr:
+ *                summary: Request Validation Error
+ *                value:
+ *                  status: 400
+ *                  message: "Request validation error"
+ *                  errors:
+ *                      - type: "numberMin"
+ *                        message: "The 'member_id' field must be greater than or equal to 1."
+ *                        field: "member_id"
+ *                        expected: 1
+ *                        actual: 0
+ *              notBorrowingBook:
+ *                summary: Not Borrowing The Book
+ *                value:
+ *                  status: 400
+ *                  message: "You are not borrowing this book"
+ *       404:
+ *         description: Not Found Response
+ *         content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/ErrorResponse'
+ *            examples:
+ *              memberNotFound:
+ *                summary: Member Not Found
+ *                value:
+ *                  status: 404
+ *                  message: Member not found
+ *              bookNotFound:
+ *                summary: Book Not Found
+ *                value: 
+ *                  status: 404
+ *                  message: "Book not found"
  */
 exports.bookReturn = async (req, res) => {
     const schema = {
